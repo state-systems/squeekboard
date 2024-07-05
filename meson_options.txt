@@ -1,0 +1,28 @@
+option('depdatadir',
+       type : 'string',
+       value : '',
+       description : 'System data path. Will be searched for definitions instead of datadir when provided')
+
+option('tests',
+       type: 'boolean', value: true,
+       description: 'Whether to compile unit tests')
+
+option('find_orphans',
+       type: 'boolean', value: false,
+       description: 'Check if all present layout files are included in resources.')
+
+option('newer',
+       type: 'boolean', value: false,
+       description: 'Build with dependencies newer than those of Byzantium')
+
+option('online',
+       type: 'boolean', value: true,
+       description: 'Pull packages from the internet while building, as opposed to a local regstry.')
+       
+option('reset_lock',
+       type: 'boolean', value: false,
+       description: 'Resets Cargo.lock to the one found in the source repo. Does not affect builds with online == false.')
+
+option('strict',
+       type: 'boolean', value: true,
+       description: 'Turn more warnings into errors')

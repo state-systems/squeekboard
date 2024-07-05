@@ -1,0 +1,28 @@
+#!/usr/bin/make -f
+
+export CARGO_HOME = $(CURDIR)/debian/cargo
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+
+# Don't use paths that may change between builds.
+# No need to care about $HOME
+# because Cargo will not place any source in ~/.cargo.
+# The build directory is a subdirectory of the source directory,
+# so it doesn't need to be explicitly taken care of.
+export RUSTFLAGS = --remap-path-prefix=$(CURDIR)=/remap-pwd
+
+%:
+	dh $@ --builddirectory=_build --buildsystem=meson
+
+# The Debian version of linked-hash-map doesn't provide any hash,
+# causing Cargo to refuse to build with a crates.io copy
+build-arch:
+	rm -f Cargo.lock
+	dh $@ --builddirectory=_build --buildsystem=meson
+
+# Debian has newer Rust crates than what is used by upstream, make
+# sure we build with the relevant dependencies and code paths for
+# our case
+override_dh_auto_configure:
+	dh_auto_configure -- -Dnewer=true -Donline=false
+
+override_dh_autoreconf:

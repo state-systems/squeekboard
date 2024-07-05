@@ -1,0 +1,208 @@
+# Greek layout originally created by Antonis Tsolomitis
+# University of the Aegean, Department of Mathematics, atsol@aegean.gr
+# Sep 2019
+# Edited by Sotiris Papadopoulos, sotirios.papadopoulos@inserm.fr
+---
+outlines:
+    default:    { width: 40,    height: 60 }
+    altline:    { width: 52.67, height: 60 }
+    wide:       { width: 62,    height: 60 }
+    spaceline:  { width: 140,   height: 60 }
+    special:    { width: 44,    height: 60 }
+
+views:
+    base:
+        - "semicolon ς ε ρ τ υ θ ι ο π"
+        - "α σ δ φ γ η ξ κ λ show_accented"
+        - "Shift_L ζ χ ψ ω β ν μ BackSpace"
+        - "show_numbers preferences space period comma Return"
+    upper:
+        - "colon exclam Ε Ρ Τ Υ Θ Ι Ο Π"
+        - "Α Σ Δ Φ Γ Η Ξ Κ Λ show_accented"
+        - "Shift_L Ζ Χ Ψ Ω Β Ν Μ BackSpace"
+        - "show_numbers preferences space period_upper apostrophe Return"
+    accented:
+        - "ά έ ή ί ϊ ΐ ό ύ ϋ ώ "
+        - "Ά Έ Ή Ί Ϊ Ό Ύ Ϋ Ώ show_base"
+        - "Ϗ ϐ ϑ ϗ ϖ ΰ ϕ – — BackSpace"
+        - "show_numbers preferences space eis_l eis_r Return"
+    numbers:
+        - "1 2 3 4 5 6 7 8 9 0"
+        - "at numbersign dollar percent ampersand minus underscore plus parenleft parenright"
+        - "show_symbols comma quotedbl quoteright colon semicolon exclam question BackSpace"
+        - "show_letters preferences space period comma Return"
+    symbols:
+        - "asciitilde quoteleft bar U00B7 squareroot Greek_pi Greek_tau division multiply paragraph"
+        - "copyright U00AE U00A3 EuroSign U00A5 asciicircum degree asterisk braceleft braceright"
+        - "show_numbers backslash slash less greater equal bracketleft bracketright  BackSpace"
+        - "show_letters preferences space period comma Return"
+buttons:
+    Shift_L:
+        action:
+            locking:
+                lock_view: "upper"
+                unlock_view: "base"
+        outline: "altline"
+        icon: "key-shift"
+    BackSpace:
+        outline: "altline"
+        icon: "edit-clear-symbolic"
+        action: "erase"
+    preferences:
+        action: "show_prefs"
+        outline: "altline"
+        icon: "keyboard-mode-symbolic"
+    show_numbers:
+        action:
+            set_view: "numbers"
+        outline: "wide"
+        label: "123"
+    show_letters:
+        action:
+            set_view: "base"
+        outline: "wide"
+        label: "ΑΒΓ"
+    show_symbols:
+        action:
+            set_view: "symbols"
+        outline: "altline"
+        label: "*/="
+    show_accented:
+        action:
+            locking:
+                lock_view: "accented"
+                unlock_view: "base"
+        outline: "altline"
+        label: "άΐ"
+    show_base:
+        action:
+            set_view: "base"
+        outline: "altline"
+        label: "αι"
+    space:
+        outline: "spaceline"
+        text: " "
+    Return:
+        outline: "wide"
+        icon: "key-enter"
+        keysym: "Return"
+    period:
+        outline: "special"
+        text: "."
+    period_upper:
+        outline: "special"
+        text: "·"
+    comma:
+        outline: "special"
+        text: ","
+    colon:
+        outline: "special"
+        text: ":"
+    semicolon:
+        outline: "special"
+        text: ";"
+    apostrophe:
+        outline: "special"
+        text: "᾿"
+    exclam:
+        outline: "special"
+        text: "!"
+    eis_l:
+        outline: "special"
+        text: "«"
+    eis_r:
+        outline: "special"
+        text: "»"
+    aring:
+        text: "å"
+    Aring:
+        text: "Å"
+    oslash:
+        text: "ø"
+    Oslash:
+        text: "Ø"
+    ae:
+        text: "æ"
+    AE:
+        text: "Æ"
+    asterisk:
+        text: "*"
+    asciitilde:
+        text: "~"
+    quoteleft:
+        text: "`"
+    bar:
+        text: "|"
+    U00B7:
+        text: "·"
+    squareroot:
+        text: "√"
+    Greek_pi:
+        text: "π"
+    division:
+        text: "÷"
+    multiply:
+        text: "×"
+    paragraph:
+        text: "¶"
+    Greek_tau:
+        text: "τ"
+    copyright:
+        text: "©"
+    numbersign:
+        text: "#"
+    U00AE:
+        text: "®"
+    at:
+        text: "@"
+    dollar:
+        text: "$"
+    U00A3:
+        text: "£"
+    percent:
+        text: "%"
+    EuroSign:
+        text: "€"
+    ampersand:
+        text: "&"
+    U00A5:
+        text: "¥"
+    minus:
+        text: "-"
+    asciicircum:
+        text: "^"
+    underscore:
+        text: "_"
+    degree:
+        text: "°"
+    plus:
+        text: "+"
+    equal:
+        text: "="
+    parenleft:
+        text: "("
+    parenright:
+        text: ")"
+    braceleft:
+        text: "{"
+    braceright:
+        text: "}"
+    backslash:
+        text: "\\"
+    slash:
+        text: "/"
+    quotedbl:
+        text: "\""
+    quoteright:
+        text: "'"
+    less:
+        text: "<"
+    greater:
+        text: ">"
+    question:
+        text: "?"
+    bracketleft:
+        text: "["
+    bracketright:
+        text: "]"
+

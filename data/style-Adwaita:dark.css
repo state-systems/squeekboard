@@ -1,0 +1,40 @@
+/* Adwaita-dark style keyboard */
+sq_view {
+    background-color: rgba(0, 0, 0, 255);
+    color: #ffffff;
+}
+
+sq_view sq_button {
+    color: #deddda;
+    background: #464448;
+}
+
+sq_button:active {
+    background: #747077;
+}
+
+sq_button.altline,
+sq_button.special,
+sq_button.wide {
+    background: #2b292f;
+}
+
+sq_button.latched {
+    background: #ffffff;
+    color: #2b292f;
+}
+
+sq_button.locked {
+    background: #ffffff;
+    color: #1c71d8;
+}
+
+#Return {
+    background: #1c71d8;
+}
+
+#Return:active {
+    background: #1c71d8;
+}
+
+@import url("resource:///sm/puri/squeekboard/common.css");

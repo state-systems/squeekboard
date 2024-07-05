@@ -1,0 +1,250 @@
+squeekboard (1.21.0-1) unstable; urgency=medium
+
+  * New upstream version
+  * d/control: add missing dependencies
+    Upstream moved to `clap` v4 and now requires `libbsd`. Moreover, the
+    binary package now recommends a new font for greek polytonic (so it gets
+    pulled in by default, but users can easily uninstall it).
+    We also take this opportunity to bump Standards-Version (no change
+    needed) and improve the package's long description.
+  * d/patches: drop upstreamed and obsolete patches
+  * debian: add lintian-overrides
+    `squeekboard` uses a crate which includes a Rust rewrite of `libyaml`.
+    `lintian` falsely recognizes this as an embedded copy of the original
+    `libyaml` and raises an error we should ignore.
+
+ -- Arnaud Ferraris <aferraris@debian.org>  Thu, 02 Mar 2023 11:18:58 +0100
+
+squeekboard (1.20.0-2) unstable; urgency=medium
+
+  * desktop-file: Add X-GNOME-* for session management
+  * Use update-alternatives to provide sm.puri.OSK0.desktop.
+    This allows other implementations to work as OSK for phosh as well.
+    (Closes: #1023510)
+  * d/control: Version conflict on phosh-osk-stub.
+    We can happily coexist with the version that uses
+    update-alternatives.
+
+ -- Guido Günther <agx@sigxcpu.org>  Mon, 07 Nov 2022 21:25:57 +0100
+
+squeekboard (1.20.0-1) unstable; urgency=medium
+
+  * debian: drop ppc64el workaround and patch.
+    This issue was only present with `rustc` 1.59 and has been fixed since
+    then (current `rustc` in Debian testing is 1.60), we can now drop our
+    workaround.
+  * d/rules: don't use online dependencies.
+    By default, `squeekboard` uses a fixed `Cargo.lock` so it can get the
+    right versions when fetching dependencies online. However, on Debian we
+    use the packaged crates instead of letting `cargo` fetch them online, so
+    we should disable this flag when configuring the build.
+
+ -- Arnaud Ferraris <aferraris@debian.org>  Wed, 14 Sep 2022 00:22:35 +0200
+
+squeekboard (1.19.0-2) unstable; urgency=medium
+
+  * d/patches: relax clap dependency
+  * d/rules: fix build on ppc64el.
+    Due to a rust bug on ppc64el, `squeekboard-test-layout` fails to build
+    properly, causing the whole build to fail on this architecture. This
+    prevents newer versions of the package to migrate to testing.
+    This bug is due to the linker trying to resolve unused symbols when
+    building a rust binary and is only seen when using version 1.59.0 of
+    rustc.
+    This commit works around this problem by adding the needed linker flags
+    to ensure all symbols are properly resolved, even those not actually
+    used by the binaries.
+    Those changes can be reverted once a newer version of rustc is packaged
+    for Debian.
+    Note: this commit also drops the `xgot` feature for mips64el as it is
+    now automatically enabled for this architecture in Debian's rustc.
+    (Closes: #1016396)
+
+ -- Arnaud Ferraris <aferraris@debian.org>  Thu, 04 Aug 2022 00:39:37 +0200
+
+squeekboard (1.19.0-1) unstable; urgency=medium
+
+  * New upstream version 1.19.0
+  * d/control: update my email address
+  * d/patches: drop upstreamed patches
+  * debian: drop now-unused lintian overrides
+
+ -- Arnaud Ferraris <aferraris@debian.org>  Mon, 11 Jul 2022 15:15:54 +0200
+
+squeekboard (1.18.0-1) unstable; urgency=medium
+
+  * New upstream version
+    - possible to enable debugging messages while Squeekboard is running
+    - input method state fix
+  * d/patches: drop patches.
+    They were all merged upstream.
+  * d/control: update build dependencies and bump Standards-Version
+  * d/patches: backport upstream commit fixing build.
+    Newer glib-rs introduces breaking changes, this patch ensures the
+    package builds with the version currently in Debian.
+
+ -- Arnaud Ferraris <arnaud.ferraris@gmail.com>  Thu, 02 Jun 2022 13:53:39 +0200
+
+squeekboard (1.17.1-1) unstable; urgency=medium
+
+  * New upstream version 1.17.1
+  * d/patches: update patch fixing build.
+    The patch we used to carry is replaced by an upstream backport, as it
+    requires another change already taken into account there.
+  * d/patches: backport upstream patches fixing sizing (Closes: #1007115)
+  * d/control: update clap build dependency.
+    We now depend on clap v3, not v2, and need the "std" feature.
+  * d/patches: fix build on i386.
+
+ -- Arnaud Ferraris <arnaud.ferraris@gmail.com>  Tue, 19 Apr 2022 18:09:28 +0200
+
+squeekboard (1.17.0-2) unstable; urgency=medium
+
+  * d/patches: fix build failure due to newer crate version.
+    Crate `clap` has been upgraded to 2.34 in Debian, so make sure this
+    package still builds fine. (Closes: #1008357)
+
+ -- Arnaud Ferraris <arnaud.ferraris@gmail.com>  Mon, 28 Mar 2022 15:16:38 +0200
+
+squeekboard (1.17.0-1) unstable; urgency=medium
+
+  * d/gbp.conf: change upstream tag handling.
+    This allows us to use `gbp import-orig --uscan`.
+  * New upstream version 1.17.0
+  * d/patches: drop backported patch.
+    It is now included in the current upstream release.
+  * d/copyright: simplify and add missing records.
+    Lots of copyright records are somewhat redundant, attributing copyright
+    to Daiki Ueno, Red Hat, Purism and/or "Squeekboard Contributors". As we
+    can safely assume the latter 2 groups have touched almost every file in
+    this repo, let's make this the default copyright. Additional records are
+    added only for files explicitly mentioning different authorship and/or
+    license. This makes the copyright file a bit simpler and also more
+    accurate.
+    This commit also adds records for new files (or ones that weren't
+    noticed before).
+
+ -- Arnaud Ferraris <arnaud.ferraris@gmail.com>  Tue, 08 Mar 2022 12:16:44 +0100
+
+squeekboard (1.16.0-1) unstable; urgency=medium
+
+  [ Guido Günther ]
+
+  * debian: Install translations
+  * debian: Switch to dh 13.
+  * debian: Install desktop file.
+
+  [ Arnaud Ferraris ]
+  * debian: drop obsolete patches.
+  * debian: update upstream URL
+  * d/rules: don't fail if Cargo.lock doesn't exist.
+  * debian: build with newer crates versions. (Closes: #1003756)
+  * d/lintian-overrides: update for new syntax
+  * d/copyright: update copyright info.
+  * d/control: bump Standards-Version, no changes required
+
+ -- Arnaud Ferraris <arnaud.ferraris@gmail.com>  Wed, 02 Feb 2022 21:22:32 +0100
+
+squeekboard (1.14.0-3) unstable; urgency=medium
+
+  * Team upload.
+  * d/patches: add fix_meson_ftbfs to fix an FTBFS
+    with meson 0.60 (Closes: #998576)
+  * d/patches: add fix_cargo_error.patch to fix an FTBFS
+    rust 1.54+ needs dependency versionning
+
+ -- Henry-Nicolas Tourneur <debian@nilux.be>  Tue, 16 Nov 2021 18:41:52 +0000
+
+squeekboard (1.14.0-2) unstable; urgency=medium
+
+  * Upload to unstable
+
+ -- Arnaud Ferraris <arnaud.ferraris@gmail.com>  Wed, 01 Sep 2021 12:41:53 +0200
+
+squeekboard (1.14.0-1) experimental; urgency=medium
+
+  * New upstream version 1.14.0
+  * d/patches: drop upstreamed patch
+  * d/copyright: update copyright information
+
+ -- Arnaud Ferraris <arnaud.ferraris@collabora.com>  Wed, 02 Jun 2021 15:07:29 +0200
+
+squeekboard (1.13.0-1) experimental; urgency=medium
+
+  * New upstream version 1.13.0
+
+ -- Arnaud Ferraris <arnaud.ferraris@gmail.com>  Fri, 16 Apr 2021 20:44:19 +0200
+
+squeekboard (1.12.0-1) unstable; urgency=medium
+
+  [ Henry-Nicolas Tourneur ]
+  * d/rules: fix an FTBFS on mips64el with GOT > 64kb
+  * d/rules: export RUSTFLAGS only on architecture that needs it
+
+  [ Dorota Czaplejewicz ]
+  * debian: Build reproducibly
+
+  [ Arnaud Ferraris ]
+  * New upstream version 1.12.0
+
+ -- Arnaud Ferraris <arnaud.ferraris@gmail.com>  Tue, 26 Jan 2021 18:19:42 +0100
+
+squeekboard (1.11.1-1) unstable; urgency=medium
+
+  * New upstream version 1.11.1
+
+ -- Arnaud Ferraris <arnaud.ferraris@gmail.com>  Tue, 24 Nov 2020 11:52:41 +0100
+
+squeekboard (1.11.0-1) unstable; urgency=medium
+
+  * New upstream release 1.11.0
+
+ -- Arnaud Ferraris <arnaud.ferraris@gmail.com>  Mon, 16 Nov 2020 11:17:23 +0100
+
+squeekboard (1.10.0-2) unstable; urgency=medium
+
+  * Team upload.
+  * d/rules: set RUSTFLAGS to avoid an FTBFS on mips64el (Closes: #974036)
+
+ -- Henry-Nicolas Tourneur <debian@nilux.be>  Tue, 10 Nov 2020 18:40:50 +0000
+
+squeekboard (1.10.0-1) unstable; urgency=medium
+
+  * New upstream release 1.10.0
+  * d/control: build-depend on libfeedbackd-dev and set team maintainership
+  * d/control: fix dependency name
+  * d/copyright: add missing entries
+  * d/copyright: add entries for new keyboard files and remove duplicate
+    `src/meson.build` appeared in 2 different paragraphs, remove the
+    duplicate entry.
+  * d/gbp.conf: fix debian version number
+
+ -- Arnaud Ferraris <arnaud.ferraris@gmail.com>  Fri, 23 Oct 2020 13:18:43 +0200
+
+squeekboard (1.9.3-1) experimental; urgency=medium
+
+  * Upload to experimental
+  * Update upstream source from tag 'v1.9.3'
+    Update to upstream version '1.9.3'
+    with Debian dir 7a3f8b82779759ba288b75755ba54500250b0ff4
+  * d/control: Use librust-xkbcommon-dev
+    This one avoids the empty feature package.
+  * Ship sm.puri.OSK0.desktop.
+    This is needed to fulfill phosh's session dependencies
+  * Conflict with phosh-osk-stub.
+    They're not useful at the same time and we'll drop phosh-osk-stub from
+    Debian once squeekboard is in.
+  * Drop pathes no longer required due to upstream changes
+    - 0001-Cargo.toml-update-to-Debian-dependencies-versions.patch
+    - 0002-popover.rs-fix-build-with-gtk-rs-0.7.0.patch
+  * d/gbp.conf: Don't use patch numbers.
+    Ordering is defined via the series file and patch numbers just
+    cause manual work.
+
+ -- Guido Günther <agx@sigxcpu.org>  Sat, 26 Sep 2020 13:01:18 +0200
+
+squeekboard (1.9.2-1) UNRELEASED; urgency=medium
+
+  * Initial Debian release (Closes: #956960)
+
+ -- Arnaud Ferraris <arnaud.ferraris@gmail.com>  Tue, 09 Jun 2020 23:29:19 +0200

@@ -1,0 +1,268 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: squeekboard
+Upstream-Contact: Dorota Czaplejewicz <dorota.czaplejewicz@puri.sm>
+Source: https://gitlab.gnome.org/World/Phosh/squeekboard
+
+Files: *
+Copyright: 2010-2011 Daiki Ueno <ueno@unixuser.org>
+           2010-2011 Red Hat, Inc.
+           2018-2022 Purism SPC
+           2019-2022 Squeekboard Contributors
+License: GPL-3+
+
+Files: cargo.sh
+Copyright: 2019 Bart Ribbers <bribbers@disroot.org>
+           2019 Purism SPC
+License: GPL-3+
+
+Files: data/*
+       src/meson.build
+       src/imservice.c
+Copyright: 2019-2022 Purism SPC
+           2019-2022 Squeekboard Contributors
+License: GPL-3+
+
+Files: data/keyboards/am.yaml
+       data/keyboards/am+phonetic.yaml
+Copyright: 2019 Purism SPC
+           2021 Norayr Chilingarian
+License: GPL-3+
+
+Files: data/keyboards/ara_wide.yaml
+       data/keyboards/ara.yaml
+Copyright: 2019 Purism SPC
+           2021 Khaled Eldoheiri <khalid@kdehairy.com>
+License: GPL-3+
+
+Files: data/keyboards/be_wide.yaml
+       data/keyboards/be.yaml
+Copyright: 2019 Purism SPC
+           2020 Arnaud Ferraris <arnaud.ferraris@gmail.com>
+           2020 Al <alex.lleroux1@gmail.com>
+License: GPL-3+
+
+Files: data/keyboards/de_wide.yaml
+       data/keyboards/de.yaml
+       data/keyboards/jp+kana_wide.yaml
+       data/keyboards/jp+kana.yaml
+Copyright: 2019 Mark Müller <markmueller86@gmail.com>
+License: GPL-3+
+
+Files: data/keyboards/es.yaml
+Copyright: 2019 Purism SPC
+           2019 uzanto <miguejim@mailbox.org>
+License: GPL-3+
+
+Files: data/keyboards/fi.yaml
+Copyright: 2019 uzanto <miguejim@mailbox.org>
+License: GPL-3+
+
+Files: data/keyboards/gr.yaml
+Copyright: 2019 Antonis Tsolomitis <atsol@aegean.gr>
+License: GPL-3+
+
+Files: data/keyboards/it.yaml
+Copyright: 2019 Antonio Pandolfo <ant.pandolfo@gmail.com>
+           2019 Purism SPC
+License: GPL-3+
+
+Files: data/keyboards/it+fur.yaml
+Copyright: 2019 Purism SPC
+           2020 Fabio Tomat <f.t.public@gmail.com>
+License: GPL-3+
+
+Files: data/keyboards/se.yaml
+Copyright: 2019 Andreas Rönnquist <andreas@ronnquist.net>
+           2019 Purism SPC
+License: GPL-3+
+
+Files: data/keyboards/fr.yaml
+       data/keyboards/fr_wide.yaml
+       data/keyboards/terminal/us_wide.yaml
+       debian/*
+Copyright: 2019 Purism SPC
+           2020-2022 Arnaud Ferraris <arnaud.ferraris@gmail.com>
+License: GPL-3+
+
+Files: dco.txt
+Copyright: 2004-2006 The Linux Foundation and its contributors
+License: DCO
+
+Files: eek/eek-keyboard.*
+       eek/eek-types.*
+       eek/eek.h
+       src/server-main.c
+       src/server-context-service.h
+Copyright: 2010-2011 Daiki Ueno <ueno@unixuser.org>
+           2010-2011 Red Hat, Inc.
+           2019 Purism SPC
+License: LGPL-2+
+
+Files: eek/layersurface.*
+       src/data/*
+       src/event_loop/*
+       src/wayland.c
+       meson.build
+Copyright: 2018-2022 Purism SPC
+License: GPL-3+
+
+Files: eekboard/eekboard-context-service.c
+Copyright: 2010-2011 Daiki Ueno <ueno@unixuser.org>
+           2010-2011 Red Hat, Inc.
+           2019 Purism, SPC
+           2019 David Heidelberg <david@ixit.cz>
+           2019 Piotr Tworek <tworaz@tworaz.net>
+           2019 Squeekboard Contributors
+License: GPL-3+
+
+Files: protocols/input-method-unstable-v2.xml
+Copyright: 2008-2011 Kristian Høgsberg
+           2010-2013 Intel Corporation
+           2012-2013 Collabora, Ltd.
+           2015-2016 Jan Arne Petersen
+           2017-2018 Red Hat, Inc.
+           2018 Purism SPC
+License: MIT
+
+Files: protocols/text-input-unstable-v3.xml
+Copyright: 2012-2013 Intel Corporation
+           2015-2016 Jan Arne Petersen
+           2017-2018 Red Hat, Inc.
+           2018 Purism SPC
+License: X11
+
+Files: protocols/virtual-keyboard-unstable-v1.xml
+Copyright: 2008-2011  Kristian Høgsberg
+           2010-2013  Intel Corporation
+           2012-2013  Collabora, Ltd.
+           2018 Purism SPC
+License: MIT
+
+Files: protocols/wlr-layer-shell-unstable-v1.xml
+Copyright: 2017 Drew DeVault
+License: X11
+
+Files: src/assert_matches.rs
+Copyright: 2016 Murarth <murarth@gmail.com>
+License: MIT or Apache-2.0
+
+Files: src/float_ord.rs
+Copyright: 2017 Michael Howell <michael@notriddle.com>
+           2019 Purism SPC
+License: MIT or Apache-2.0
+
+Files: src/resources.rs
+Copyright: 2019 Andreas Rönnquist <andreas@ronnquist.net>
+           2019 Mark Müller <markmueller86@gmail.com>
+           2019 Purism SPC
+License: GPL-3+
+
+Files: src/style.rs
+Copyright: 2000 Red Hat, Inc.
+           2019 Purism SPC
+License: GPL-3+
+
+Files: src/xdg.rs
+Copyright: 2015 Ben Longbons <b.r.longbons@gmail.com>
+           2015-2019 whitequark <whitequark@whitequark.org>
+           2018-2019 Simon Ochsenreither <simon@ochsenreither.de>
+           2019 Purism SPC
+License: MIT or Apache-2.0
+
+Files: tests/meson.build
+Copyright: 2019 Purism SPC
+           2019 Mark Müller <markmueller86@gmail.com>
+License: GPL-3+
+
+License: GPL-3+
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 3 of the License, or
+ (at your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <https://www.gnu.org/licenses/>
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License version 3 can be found in "/usr/share/common-licenses/GPL-3".
+
+License: LGPL-2+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2 of the License, or (at your option) any later version.
+ .
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.         See the GNU
+ Lesser General Public License for more details.
+ .
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library. If not, see <http://www.gnu.org/licenses/>.
+ .
+ On Debian systems, the complete text of the GNU Lesser General
+ Public License version 2 can be found in "/usr/share/common-licenses/LGPL-2".
+
+License: X11
+ Permission to use, copy, modify, distribute, and sell this software and
+ its documentation for any purpose is hereby granted without fee, provided
+ that the above copyright notice appear in all copies and that both that
+ copyright notice and this permission notice appear in supporting
+ documentation, and that the name of the copyright holders not be used in
+ advertising or publicity pertaining to distribution of the software
+ without specific, written prior permission.  The copyright holders make
+ no representations about the suitability of this software for any
+ purpose.  It is provided "as is" without express or implied warranty.
+ .
+ THE COPYRIGHT HOLDERS DISCLAIM ALL WARRANTIES WITH REGARD TO THIS
+ SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ FITNESS, IN NO EVENT SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES WHATSOEVER
+ RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF
+ CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR IN
+ CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+License: MIT
+ Permission is hereby granted, free of charge, to any person obtaining a
+ copy of this software and associated documentation files (the "Software"),
+ to deal in the Software without restriction, including without limitation
+ the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ and/or sell copies of the Software, and to permit persons to whom the
+ Software is furnished to do so, subject to the following conditions:
+ .
+ The above copyright notice and this permission notice (including the next
+ paragraph) shall be included in all copies or substantial portions of the
+ Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+ THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ DEALINGS IN THE SOFTWARE.
+
+License: Apache-2.0
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+ .
+ http://www.apache.org/licenses/LICENSE-2.0
+ .
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ .
+ On Debian systems, the complete text of the Apache License, Version 2.0
+ can be found in "/usr/share/common-licenses/Apache-2.0".
+
+License: DCO
+ Everyone is permitted to copy and distribute verbatim copies of this
+ license document, but changing it is not allowed.
