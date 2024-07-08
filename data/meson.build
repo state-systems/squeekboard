@@ -24,5 +24,3 @@ i18n.merge_file(
     install_dir: desktopdir,
     type: 'desktop'
 )
-
-install_data('squeek.desktop', install_dir : '/etc/xdg/autostart')
