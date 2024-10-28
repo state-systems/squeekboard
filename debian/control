@@ -46,7 +46,7 @@ Package: squeekboard
 Architecture: linux-any
 Depends:
 # for the Adwaita-dark theme
- gnome-themes-extra-data,
+ gnome-themes-extra-data, raspi-config (>= 20241028),
  ${shlibs:Depends},
  ${misc:Depends},
 Recommends:

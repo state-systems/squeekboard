@@ -4,6 +4,7 @@ set -e
 
 case "$1" in
     configure)
+        raspi-config nonint update_squeekboard
         pwdlines=$(getent passwd)
         while read line
         do

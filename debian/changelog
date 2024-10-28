@@ -1,3 +1,9 @@
+squeekboard (1.21.0-1+rpt4) bookworm; urgency=medium
+
+  * Add raspi-config call to set layout on install
+
+ -- Simon Long <simon@raspberrypi.com>  Mon, 28 Oct 2024 07:28:58 +0000
+
 squeekboard (1.21.0-1+rpt3) bookworm; urgency=medium
 
   * Add wrapper script to enable if touch device found
