@@ -1,0 +1,55 @@
+#!/bin/sh
+
+set -e
+
+case "$1" in
+    configure)
+        pwdlines=$(getent passwd)
+        while read line
+        do
+          USHELL=$(echo "$line" | cut -d: -f7)
+          if grep -q "$USHELL" /etc/shells ; then
+            HOME_DIR=$(echo "$line" | cut -d: -f6)/
+            if [ -e $HOME_DIR/.config/ ] ; then
+              if ! [ -e $HOME_DIR/.config/wf-panel-pi.ini ] ; then
+                echo "[panel]" > $HOME_DIR/.config/wf-panel-pi.ini
+              fi
+              if ! grep -q widgets_right $HOME_DIR/.config/wf-panel-pi.ini ; then
+                echo "widgets_right="$(cat /usr/share/wf-panel-pi/metadata/panel-pi.xml | sed -n '/widgets_right/,/option/{/default/p}' | cut -d'>' -f2 | cut -d'<' -f1) >> $HOME_DIR/.config/wf-panel-pi.ini
+              fi
+              if ! grep -q squeek $HOME_DIR/.config/wf-panel-pi.ini ; then
+                sed -i '/widgets_right/ s/$/ squeek/' $HOME_DIR/.config/wf-panel-pi.ini
+              fi
+            fi
+          fi
+        done <<EOF
+        $pwdlines
+EOF
+        cat > /etc/xdg/autostart/squeekboard.desktop << EOF
+[Desktop Entry]
+Name=Squeekboard
+Comment=Launch the on-screen keyboard
+Exec=/usr/bin/sbtest
+Terminal=false
+Type=Application
+NoDisplay=true
+EOF
+        sed -i '/squeekboard/d' /usr/share/labwc/autostart
+        if ! grep -q sbtest /usr/share/labwc/autostart ; then
+          echo "/usr/bin/sbtest &" >> /usr/share/labwc/autostart
+        fi
+        sbtest > /dev/null 2> /dev/null &
+        ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+        ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0

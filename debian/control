@@ -51,7 +51,7 @@ Depends:
  ${misc:Depends},
 Recommends:
 # for Greek polytonic readability
- fonts-gfs-didot-classic,
+ fonts-gfs-didot-classic, wfplug-squeek
 Conflicts: phosh-osk-stub (<< 0.22.1)
 Description: On-screen keyboard for Wayland
  Virtual keyboard for Wayland, supporting the 'input-method', 'text-input' and

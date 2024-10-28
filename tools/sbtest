@@ -1,0 +1,4 @@
+#!/bin/sh
+if libinput list-devices | grep Capabilities | grep -qw touch ; then
+ /usr/bin/squeekboard
+fi

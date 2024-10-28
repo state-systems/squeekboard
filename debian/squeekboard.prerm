@@ -1,0 +1,40 @@
+#! /bin/sh
+
+set -e
+
+case "$1" in
+    remove|deconfigure)
+        rm -f /etc/xdg/autostart/squeekboard.desktop
+        sed -i '/sbtest/d' /usr/share/labwc/autostart
+        sed -i '/squeekboard/d' /usr/share/labwc/autostart
+        pwdlines=$(getent passwd)
+        while read line
+        do
+          USHELL=$(echo "$line" | cut -d: -f7)
+          if grep -q "$USHELL" /etc/shells ; then
+            HOME_DIR=$(echo "$line" | cut -d: -f6)/
+            if [ -e $HOME_DIR/.config/ ] ; then
+              if [ -e $HOME_DIR/.config/wf-panel-pi.ini ] ; then
+                if grep -q squeek $HOME_DIR/.config/wf-panel-pi.ini ; then
+                  sed -i -E 's/(widgets_right.*) squeek(.*)/\1\2/' $HOME_DIR/.config/wf-panel-pi.ini
+                fi
+              fi
+            fi
+          fi
+        done <<EOF
+        $pwdlines
+EOF
+        ;;
+
+    upgrade|failed-upgrade)
+        ;;
+
+    *)
+        echo "prerm called with unknown argument \`$1'" >&2
+        exit 1
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0
