@@ -1,3 +1,9 @@
+squeekboard (1.21.0-1+rpt5) bookworm; urgency=medium
+
+  * Simplify adding plugin to prevent corruption of config file
+
+ -- Simon Long <simon@raspberrypi.com>  Wed, 30 Oct 2024 15:33:17 +0000
+
 squeekboard (1.21.0-1+rpt4) bookworm; urgency=medium
 
   * Add raspi-config call to set layout on install

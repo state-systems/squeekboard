@@ -11,15 +11,9 @@ case "$1" in
           USHELL=$(echo "$line" | cut -d: -f7)
           if grep -q "$USHELL" /etc/shells ; then
             HOME_DIR=$(echo "$line" | cut -d: -f6)/
-            if [ -e $HOME_DIR/.config/ ] ; then
-              if ! [ -e $HOME_DIR/.config/wf-panel-pi.ini ] ; then
-                echo "[panel]" > $HOME_DIR/.config/wf-panel-pi.ini
-              fi
-              if ! grep -q widgets_right $HOME_DIR/.config/wf-panel-pi.ini ; then
-                echo "widgets_right="$(cat /usr/share/wf-panel-pi/metadata/panel-pi.xml | sed -n '/widgets_right/,/option/{/default/p}' | cut -d'>' -f2 | cut -d'<' -f1) >> $HOME_DIR/.config/wf-panel-pi.ini
-              fi
-              if ! grep -q squeek $HOME_DIR/.config/wf-panel-pi.ini ; then
-                sed -i '/widgets_right/ s/$/ squeek/' $HOME_DIR/.config/wf-panel-pi.ini
+            if [ -e "$HOME_DIR/.config/wf-panel-pi.ini" ] ; then
+              if ! grep -q -w squeek "$HOME_DIR/.config/wf-panel-pi.ini" ; then
+                sed "$HOME_DIR/.config/wf-panel-pi.ini" -i -e '/^widgets_right/ s/$/ squeek/'
               fi
             fi
           fi
