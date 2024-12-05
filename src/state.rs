@@ -544,6 +544,7 @@ pub mod test {
                 current_mode: None,
                 geometry: None,
                 scale: 1,
+                name: None,
             },
         );
         Application {
@@ -745,6 +746,7 @@ pub mod test {
                     },
                 }),
                 scale: 2,
+                name: None,
             }),
             Some((
                 PixelSize {
