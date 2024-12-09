@@ -100,6 +100,8 @@ panel_manager_request_widget (struct panel_manager *self, struct wl_output *outp
         gtk_window_set_icon_name (GTK_WINDOW(self->window), "squeekboard");
         gtk_window_set_keep_above (GTK_WINDOW(self->window), TRUE);
     } else {
+        // FIXME: Make use of mgr->current_output to track this
+        g_object_set (G_OBJECT(self->window), "wl-output", output, NULL);
         panel_manager_resize(self, height);
     }
 
