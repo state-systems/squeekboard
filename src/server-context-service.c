@@ -99,8 +99,6 @@ server_context_service_init (ServerContextService *self) {}
 ServerContextService *
 server_context_service_new (struct squeek_state_manager *state_manager)
 {
-    return NULL;
-
     ServerContextService *holder = g_object_new (SERVER_TYPE_CONTEXT_SERVICE, NULL);
     holder->state_manager = state_manager;
 

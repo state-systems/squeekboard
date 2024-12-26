@@ -1,3 +1,15 @@
+squeekboard (1.21.0-1+rpt7) bookworm; urgency=medium
+
+  * Fix sed bug in postinst
+
+ -- Simon Long <simon@raspberrypi.com>  Fri, 20 Dec 2024 12:59:34 +0000
+
+squeekboard (1.21.0-1+rpt6) bookworm; urgency=medium
+
+  * Add output selection
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 10 Dec 2024 07:26:27 +0000
+
 squeekboard (1.21.0-1+rpt5) bookworm; urgency=medium
 
   * Simplify adding plugin to prevent corruption of config file

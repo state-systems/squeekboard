@@ -1,5 +1,6 @@
 tools/squeekboard-restyled /usr/bin
 tools/sbtest /usr/bin
+tools/sbout /usr/bin
 usr/bin/squeekboard /usr/bin
 usr/share/applications/
 usr/share/locale/
