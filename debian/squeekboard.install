@@ -4,3 +4,4 @@ tools/sbout /usr/bin
 usr/bin/squeekboard /usr/bin
 usr/share/applications/
 usr/share/locale/
+data/keyboards/* /usr/share/misc/squeekboard/keyboards

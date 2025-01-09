@@ -14,7 +14,6 @@ use super::parsing;
 use crate::layout;
 use crate::layout::ArrangementKind;
 use crate::logging;
-use crate::xdg;
 use crate::imservice::ContentPurpose;
 
 
@@ -222,7 +221,7 @@ fn load_layout_data_with_fallback(
     // Build the path to the right keyboard layout subdirectory
     let path = env::var_os("SQUEEKBOARD_KEYBOARDSDIR")
         .map(PathBuf::from)
-        .or_else(|| xdg::data_path("squeekboard/keyboards"));
+        .or_else(|| Some(PathBuf::from("/usr/share/misc/squeekboard/keyboards")));
 
     for (kind, source) in iter_layout_sources(&name, kind, purpose, overlay, path) {
         let layout = load_layout_data(source.clone());
