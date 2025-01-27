@@ -1,3 +1,5 @@
 #!/bin/sh
+if [ -e /usr/share/squeekboard/output ] ; then
 . /usr/share/squeekboard/output
+fi
 /usr/bin/squeekboard
