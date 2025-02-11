@@ -30,15 +30,28 @@ Terminal=false
 Type=Application
 NoDisplay=true
 EOF
-          sed -i '/squeekboard/d' /usr/share/labwc/autostart
-          if ! grep -q sbtest /usr/share/labwc/autostart ; then
-            echo "/usr/bin/sbtest &" >> /usr/share/labwc/autostart
+          if [ -e /usr/share/labwc/autostart ] ; then
+            sed -i '/squeekboard/d' /usr/share/labwc/autostart
+            if ! grep -q sbtest /usr/share/labwc/autostart ; then
+              echo "/usr/bin/sbtest &" >> /usr/share/labwc/autostart
+            fi
+          fi
+          if [ -e /etc/xdg/labwc-greeter/autostart ] ; then
+            sed -i '/squeekboard/d' /etc/xdg/labwc-greeter/autostart
+            if ! grep -q sbtest /etc/xdg/labwc-greeter/autostart ; then
+              echo "/usr/bin/sbtest &" >> /etc/xdg/labwc-greeter/autostart
+            fi
           fi
           sbtest > /dev/null 2> /dev/null &
         else
-          if [ -e /usr/share/labwc/autostart ] ; then 
+          if [ -e /usr/share/labwc/autostart ] ; then
             if grep squeekboard /usr/share/labwc/autostart ; then
               sed -i 's/squeekboard/sbout/' /usr/share/labwc/autostart
+            fi
+          fi
+          if [ -e /etc/xdg/labwc-greeter/autostart ] ; then
+            if grep squeekboard /etc/xdg/labwc-greeter/autostart ; then
+              sed -i 's/squeekboard/sbout/' /etc/xdg/labwc-greeter/autostart
             fi
           fi
           if [ -e /etc/xdg/autostart/squeekboard.desktop ] ; then
