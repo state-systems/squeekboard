@@ -1,3 +1,21 @@
+squeekboard (1.21.0-1+rpt10) bookworm; urgency=medium
+
+  * Check for existence of files in prerm
+
+ -- Simon Long <simon@raspberrypi.com>  Tue, 11 Feb 2025 13:47:23 +0000
+
+squeekboard (1.21.0-1+rpt9) bookworm; urgency=medium
+
+  * Fix bug where keyboard does not start if output not explicitly set
+
+ -- Simon Long <simon@raspberrypi.com>  Mon, 27 Jan 2025 14:44:48 +0000
+
+squeekboard (1.21.0-1+rpt8) bookworm; urgency=medium
+
+  * Include keyboard layouts
+
+ -- Simon Long <simon@raspberrypi.com>  Wed, 15 Jan 2025 11:55:23 +0000
+
 squeekboard (1.21.0-1+rpt7) bookworm; urgency=medium
 
   * Fix sed bug in postinst

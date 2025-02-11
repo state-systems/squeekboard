@@ -4,9 +4,13 @@ set -e
 
 case "$1" in
     remove|deconfigure)
-        rm -f /etc/xdg/autostart/squeekboard.desktop
-        sed -i '/sbtest/d' /usr/share/labwc/autostart
-        sed -i '/squeekboard/d' /usr/share/labwc/autostart
+        if [ -e /etc/xdg/autostart/squeekboard.desktop ] ; then
+          rm -f /etc/xdg/autostart/squeekboard.desktop
+        fi
+        if [ -e /usr/share/labwc/autostart ] ; then
+          sed -i '/sbtest/d' /usr/share/labwc/autostart
+          sed -i '/squeekboard/d' /usr/share/labwc/autostart
+        fi
         pwdlines=$(getent passwd)
         while read line
         do
