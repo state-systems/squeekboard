@@ -1,5 +1,7 @@
 #!/bin/sh
+if [ -e /usr/share/squeekboard/output ] ; then
 . /usr/share/squeekboard/output
+fi
 if libinput list-devices | grep Capabilities | grep -qw touch ; then
  /usr/bin/squeekboard
 fi
