@@ -9,7 +9,7 @@ use crate::actors::external::debug;
 use crate::animation;
 use crate::event_loop;
 use crate::event_loop::ActorState;
-use crate::imservice::{ ContentHint, ContentPurpose };
+use crate::imservice::{ContentHint, ContentPurpose};
 use crate::layout::ArrangementKind;
 use crate::main;
 use crate::main::Commands;
@@ -23,7 +23,6 @@ use std::cmp;
 use std::collections::HashMap;
 use std::env;
 use std::time::Instant;
-
 
 #[derive(Clone, Copy, Debug)]
 pub enum Presence {
@@ -54,7 +53,7 @@ impl From<String> for LayoutSource {
         if v.as_str() == "xkb" {
             LayoutSource::Xkb
         } else {
-           LayoutSource::Other(v)
+            LayoutSource::Other(v)
         }
     }
 }
@@ -143,10 +142,11 @@ impl event_loop::Outcome for Outcome {
     /// The receivers of the commands bear the burden
     /// of checking if the commands end up being no-ops.
     fn get_commands_to_reach(&self, new_state: &Self) -> Commands {
-// FIXME: handle switching outputs
+        // FIXME: handle switching outputs
         let (dbus_visible_set, panel_visibility) = match new_state.panel {
-            animation::Outcome::Visible{output, height, ..}
-                => (Some(true), Some(panel::Command::Show{output, height})),
+            animation::Outcome::Visible { output, height, .. } => {
+                (Some(true), Some(panel::Command::Show { output, height }))
+            }
             animation::Outcome::Hidden => (Some(false), Some(panel::Command::Hide)),
         };
 
@@ -154,24 +154,26 @@ impl event_loop::Outcome for Outcome {
         // which may look up in the file system.
         use crate::animation::Outcome::*;
         let layout_selection = match &new_state.panel {
-            Visible{ contents: new_contents, ..} => {
-                let same
-                    = if let Visible { contents, .. } = &self.panel {
-                        contents == new_contents
-                    } else {
-                        false
-                    };
+            Visible {
+                contents: new_contents,
+                ..
+            } => {
+                let same = if let Visible { contents, .. } = &self.panel {
+                    contents == new_contents
+                } else {
+                    false
+                };
 
                 if !same {
                     Some(main::commands::SetLayout {
-                        description: new_contents.clone()
+                        description: new_contents.clone(),
                     })
                 } else {
                     None
                 }
-            },
+            }
             animation::Outcome::Hidden => None,
-        };        
+        };
 
         Commands {
             panel_visibility,
@@ -283,7 +285,7 @@ impl Application {
                         }
                         app.preferred_output = app.preferred_output.or(Some(output));
                         app.outputs.insert(output, state);
-                    },
+                    }
                     outputs::ChangeType::Removed => {
                         app.outputs.remove(&output);
                         if app.preferred_output == Some(output) {
@@ -309,57 +311,56 @@ impl Application {
                             // just take whichever comes first.
                             app.preferred_output = app.outputs.keys().next().map(|output| *output);
                         }
-                    },
+                    }
                 };
                 app
-            },
+            }
 
-            Event::InputMethod(new_im)
-            => match (self.im.clone(), new_im, self.visibility_override) {
-                (InputMethod::Active(_old), InputMethod::Active(new_im), _)
-                => Self {
+            Event::InputMethod(new_im) => match (self.im.clone(), new_im, self.visibility_override)
+            {
+                (InputMethod::Active(_old), InputMethod::Active(new_im), _) => Self {
                     im: InputMethod::Active(new_im),
                     ..self
                 },
                 // For changes in active state, remove user's visibility override.
                 // Both cases spelled out explicitly, rather than by the wildcard,
                 // to not lose the notion that it's the opposition that matters
-                (InputMethod::InactiveSince(_old), InputMethod::Active(new_im), _)
-                => Self {
+                (InputMethod::InactiveSince(_old), InputMethod::Active(new_im), _) => Self {
                     im: InputMethod::Active(new_im),
                     visibility_override: visibility::State::NotForced,
                     ..self
                 },
                 // Avoid triggering animation when old state was forced hidden
-                (InputMethod::Active(_old), InputMethod::InactiveSince(_since), visibility::State::ForcedHidden)
-                => Self {
+                (
+                    InputMethod::Active(_old),
+                    InputMethod::InactiveSince(_since),
+                    visibility::State::ForcedHidden,
+                ) => Self {
                     im: InputMethod::InactiveSince(now - animation::HIDING_TIMEOUT * 2),
                     visibility_override: visibility::State::NotForced,
                     ..self
                 },
-                (InputMethod::Active(_old), InputMethod::InactiveSince(since), _)
-                => Self {
+                (InputMethod::Active(_old), InputMethod::InactiveSince(since), _) => Self {
                     im: InputMethod::InactiveSince(since),
                     visibility_override: visibility::State::NotForced,
                     ..self
                 },
                 // This is a weird case, there's no need to update an inactive state.
                 // But it's not wrong, just superfluous.
-                (InputMethod::InactiveSince(old), InputMethod::InactiveSince(_new), _)
-                => Self {
+                (InputMethod::InactiveSince(old), InputMethod::InactiveSince(_new), _) => Self {
                     // New is going to be newer than old, so it can be ignored.
                     // It was already inactive at that moment.
                     im: InputMethod::InactiveSince(old),
                     ..self
                 },
             },
-            
+
             Event::LayoutChoice(layout_choice) => Self {
                 layout_choice,
                 overlay_layout: None,
                 ..self
             },
-            
+
             Event::OverlayChanged(overlay_layout) => Self {
                 overlay_layout: Some(overlay_layout),
                 ..self
@@ -379,82 +380,84 @@ Outcome:
         state
     }
 
-    fn get_preferred_height_and_arrangement(output: &OutputState)
-        -> Option<(PixelSize, ArrangementKind)>
-    {
-        output.get_pixel_size()
-            .map(|px_size| {
-                // Assume isotropy.
-                // Pixels/mm.
-                let density = output.get_physical_size()
-                    .and_then(|size| size.width)
-                    .map(|width| Rational {
-                        numerator: px_size.width as i32,
-                        denominator: width.0 as u32,
-                    })
-                    // Whatever the Librem 5 has,
-                    // as a good default.
-                    .unwrap_or(Rational {
-                        numerator: 720,
-                        denominator: 65,
-                    });
+    fn get_preferred_height_and_arrangement(
+        output: &OutputState,
+    ) -> Option<(PixelSize, ArrangementKind)> {
+        output.get_pixel_size().map(|px_size| {
+            // Assume isotropy.
+            // Pixels/mm.
+            let density = output
+                .get_physical_size()
+                .and_then(|size| size.width)
+                .map(|width| Rational {
+                    numerator: px_size.width as i32,
+                    denominator: width.0 as u32,
+                })
+                // Whatever the Librem 5 has,
+                // as a good default.
+                .unwrap_or(Rational {
+                    numerator: 720,
+                    denominator: 65,
+                });
 
-                // Based on what works on the L5.
-                // Exceeding that probably wastes space. Reducing makes typing harder.
-                const IDEAL_TARGET_SIZE: Rational<Millimeter> = Rational {
-                    numerator: Millimeter(948),
-                    denominator: 100,
-                };
+            // Based on what works on the L5.
+            // Exceeding that probably wastes space. Reducing makes typing harder.
+            const IDEAL_TARGET_SIZE: Rational<Millimeter> = Rational {
+                numerator: Millimeter(2000),
+                denominator: 100,
+            };
 
-                // TODO: calculate based on selected layout
-                const ROW_COUNT: u32 = 4;
+            // TODO: calculate based on selected layout
+            const ROW_COUNT: u32 = 4;
 
-                let ideal_height = IDEAL_TARGET_SIZE * ROW_COUNT as i32;
-                let ideal_height_px = (ideal_height * density).ceil().0 as u32;
+            let ideal_height = IDEAL_TARGET_SIZE * ROW_COUNT as i32;
+            let ideal_height_px = (ideal_height * density).ceil().0 as u32;
 
-                // Reduce height to match what the layout can fill.
-                // For this, we need to guess if normal or wide will be picked up.
-                // This must match `eek_gtk_keyboard.c::get_type`.
-                // TODO: query layout database and choose one directly
-                let abstract_width
-                    = PixelSize {
-                        scale_factor: output.scale as u32,
-                        pixels: px_size.width,
-                    } 
-                    .as_scaled_ceiling();
+            // Reduce height to match what the layout can fill.
+            // For this, we need to guess if normal or wide will be picked up.
+            // This must match `eek_gtk_keyboard.c::get_type`.
+            // TODO: query layout database and choose one directly
+            let abstract_width = PixelSize {
+                scale_factor: output.scale as u32,
+                pixels: px_size.width,
+            }
+            .as_scaled_ceiling();
 
-                let (arrangement, height_as_widths) = {
-                    if abstract_width < 540 {(
+            let (arrangement, height_as_widths) = {
+                if abstract_width < 540 {
+                    (
                         ArrangementKind::Base,
                         Rational {
                             numerator: 210,
                             denominator: 360,
                         },
-                    )} else {(
+                    )
+                } else {
+                    (
                         ArrangementKind::Wide,
                         Rational {
                             numerator: 172,
                             denominator: 540,
-                        }
-                    )}
-                };
+                        },
+                    )
+                }
+            };
 
-                let height
-                    = cmp::min(
-                        ideal_height_px,
-                        (height_as_widths * px_size.width as i32).ceil() as u32,
-                    );
+            let height = cmp::min(
+                ideal_height_px,
+                (height_as_widths * px_size.width as i32).ceil() as u32,
+            );
 
-                (
-                    PixelSize {
-                        scale_factor: output.scale as u32,
-                        pixels: cmp::min(height, px_size.height / 2),
-                    },
-                    arrangement,
-                )
-            })
+            (
+                PixelSize {
+                    scale_factor: output.scale as u32,
+                    pixels: cmp::min(height, px_size.height / 2),
+                },
+                arrangement,
+            )
+        })
     }
-    
+
     /// Returns layout name, overlay name
     fn get_layout_names(&self) -> (String, Option<String>) {
         (
@@ -473,27 +476,32 @@ Outcome:
 impl ActorState for Application {
     type Event = Event;
     type Outcome = Outcome;
-    
+
     fn apply_event(self, e: Self::Event, time: Instant) -> Self {
         Self::apply_event(self, e, time)
     }
-    
+
     fn get_outcome(&self, now: Instant) -> Outcome {
         // FIXME: include physical keyboard presence
         Outcome {
             panel: match self.preferred_output {
                 None => animation::Outcome::Hidden,
                 Some(output) => {
-                    let (height, arrangement) = Self::get_preferred_height_and_arrangement(self.outputs.get(&output).unwrap())
-                        .unwrap_or((
-                            PixelSize{pixels: 0, scale_factor: 1},
-                            ArrangementKind::Base,
-                        ));
+                    let (height, arrangement) = Self::get_preferred_height_and_arrangement(
+                        self.outputs.get(&output).unwrap(),
+                    )
+                    .unwrap_or((
+                        PixelSize {
+                            pixels: 0,
+                            scale_factor: 1,
+                        },
+                        ArrangementKind::Base,
+                    ));
                     let (layout_name, overlay) = self.get_layout_names();
-        
+
                     // TODO: Instead of setting size to 0 when the output is invalid,
                     // simply go invisible.
-                    let visible = animation::Outcome::Visible{
+                    let visible = animation::Outcome::Visible {
                         output,
                         height,
                         contents: animation::Contents {
@@ -504,19 +512,24 @@ impl ActorState for Application {
                                 InputMethod::Active(InputMethodDetails { purpose, .. }) => purpose,
                                 InputMethod::InactiveSince(_) => ContentPurpose::Normal,
                             },
-                        }
+                        },
                     };
 
                     match (self.physical_keyboard, self.visibility_override) {
                         (_, visibility::State::ForcedHidden) => animation::Outcome::Hidden,
                         (_, visibility::State::ForcedVisible) => visible,
-                        (Presence::Present, visibility::State::NotForced) => animation::Outcome::Hidden,
+                        (Presence::Present, visibility::State::NotForced) => {
+                            animation::Outcome::Hidden
+                        }
                         (Presence::Missing, visibility::State::NotForced) => match self.im {
                             InputMethod::Active(_) => visible,
                             InputMethod::InactiveSince(since) => {
-                                if now < since + animation::HIDING_TIMEOUT { visible }
-                                else { animation::Outcome::Hidden }
-                            },
+                                if now < since + animation::HIDING_TIMEOUT {
+                                    visible
+                                } else {
+                                    animation::Outcome::Hidden
+                                }
+                            }
                         },
                     }
                 }
@@ -534,14 +547,16 @@ impl ActorState for Application {
                 ..
             } => {
                 let anim_end = *since + animation::HIDING_TIMEOUT;
-                if now < anim_end { Some(anim_end) }
-                else { None }
+                if now < anim_end {
+                    Some(anim_end)
+                } else {
+                    None
+                }
             }
             _ => None,
         }
     }
 }
-
 
 #[cfg(test)]
 pub mod test {
@@ -557,9 +572,7 @@ pub mod test {
     }
 
     fn fake_output_id(id: usize) -> OutputId {
-        OutputId(unsafe {
-            std::mem::transmute::<_, WlOutput>(id)
-        })
+        OutputId(unsafe { std::mem::transmute::<_, WlOutput>(id) })
     }
 
     pub fn application_with_fake_output(start: Instant) -> Application {
@@ -599,17 +612,20 @@ pub mod test {
             now += Duration::from_millis(1);
             assert_matches!(
                 state.get_outcome(now).panel,
-                animation::Outcome::Visible{..},
+                animation::Outcome::Visible { .. },
                 "Hidden when it should remain visible: {:?}",
                 now.saturating_duration_since(start),
             )
         }
 
-        let state = state.apply_event(Event::InputMethod(InputMethod::Active(imdetails_new())), now);
+        let state = state.apply_event(
+            Event::InputMethod(InputMethod::Active(imdetails_new())),
+            now,
+        );
 
         assert_matches!(
             state.get_outcome(now).panel,
-            animation::Outcome::Visible{..}
+            animation::Outcome::Visible { .. }
         );
     }
 
@@ -624,10 +640,10 @@ pub mod test {
             visibility_override: visibility::State::NotForced,
             ..application_with_fake_output(start)
         };
-        
+
         let state = state.apply_event(Event::InputMethod(InputMethod::InactiveSince(now)), now);
 
-        while let animation::Outcome::Visible{..} = state.get_outcome(now).panel {
+        while let animation::Outcome::Visible { .. } = state.get_outcome(now).panel {
             now += Duration::from_millis(1);
             assert!(
                 now < start + Duration::from_millis(250),
@@ -636,7 +652,7 @@ pub mod test {
             );
         }
     }
-    
+
     /// Check against the false showing bug.
     /// Expectation: it will get hidden and not appear again
     #[test]
@@ -654,10 +670,13 @@ pub mod test {
         // all in a single batch.
         let state = state.apply_event(Event::InputMethod(InputMethod::InactiveSince(now)), now);
         let state = state.apply_event(Event::InputMethod(InputMethod::InactiveSince(now)), now);
-        let state = state.apply_event(Event::InputMethod(InputMethod::Active(imdetails_new())), now);
+        let state = state.apply_event(
+            Event::InputMethod(InputMethod::Active(imdetails_new())),
+            now,
+        );
         let state = state.apply_event(Event::InputMethod(InputMethod::InactiveSince(now)), now);
 
-        while let animation::Outcome::Visible{..} = state.get_outcome(now).panel {
+        while let animation::Outcome::Visible { .. } = state.get_outcome(now).panel {
             now += Duration::from_millis(1);
             assert!(
                 now < start + Duration::from_millis(250),
@@ -665,7 +684,7 @@ pub mod test {
                 now.saturating_duration_since(start),
             );
         }
-        
+
         // One second without appearing again
         for _i in 0..1000 {
             now += Duration::from_millis(1);
@@ -693,13 +712,16 @@ pub mod test {
         let state = state.apply_event(Event::Visibility(visibility::Event::ForceVisible), now);
         assert_matches!(
             state.get_outcome(now).panel,
-            animation::Outcome::Visible{..},
+            animation::Outcome::Visible { .. },
             "Failed to show: {:?}",
             now.saturating_duration_since(start),
         );
-        
+
         now += Duration::from_secs(1);
-        let state = state.apply_event(Event::InputMethod(InputMethod::Active(imdetails_new())), now);
+        let state = state.apply_event(
+            Event::InputMethod(InputMethod::Active(imdetails_new())),
+            now,
+        );
         now += Duration::from_secs(1);
         let state = state.apply_event(Event::InputMethod(InputMethod::InactiveSince(now)), now);
         now += Duration::from_secs(1);
@@ -731,11 +753,14 @@ pub mod test {
             "Failed to hide: {:?}",
             now.saturating_duration_since(start),
         );
-        
+
         now += Duration::from_secs(1);
         let state = state.apply_event(Event::InputMethod(InputMethod::InactiveSince(now)), now);
         now += Duration::from_secs(1);
-        let state = state.apply_event(Event::InputMethod(InputMethod::Active(imdetails_new())), now);
+        let state = state.apply_event(
+            Event::InputMethod(InputMethod::Active(imdetails_new())),
+            now,
+        );
 
         assert_eq!(
             state.get_outcome(now).panel,
@@ -749,23 +774,22 @@ pub mod test {
 
         assert_matches!(
             state.get_outcome(now).panel,
-            animation::Outcome::Visible{..},
+            animation::Outcome::Visible { .. },
             "Failed to appear: {:?}",
             now.saturating_duration_since(start),
         );
-
     }
 
     #[test]
     fn size_l5() {
-        use crate::outputs::{Mode, Geometry, c, Size};
+        use crate::outputs::{c, Geometry, Mode, Size};
         assert_eq!(
             Application::get_preferred_height_and_arrangement(&OutputState {
                 current_mode: Some(Mode {
                     width: 720,
                     height: 1440,
                 }),
-                geometry: Some(Geometry{
+                geometry: Some(Geometry {
                     transform: c::Transform::Normal,
                     phys_size: Size {
                         width: Some(Millimeter(65)),
