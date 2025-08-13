@@ -26,15 +26,15 @@ sq_button.latched {
 
 sq_button.locked {
     background: #ffffff;
-    color: #1c71d8;
+    color: #f06a22;
 }
 
 #Return {
-    background: #1c71d8;
+    background: #f06a22;
 }
 
 #Return:active {
-    background: #1c71d8;
+    background: #f06a22;
 }
 
 @import url("resource:///sm/puri/squeekboard/common.css");
